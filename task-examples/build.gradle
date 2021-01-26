@@ -1,0 +1,26 @@
+group 'com.vergilyn.examples'
+version '1.0.0-SNAPSHOT'
+
+println("task-examples >>>> ")
+
+// [Task](https://docs.gradle.org/6.8/dsl/org.gradle.api.Task.html)
+
+/* cmd> gradle [option...] [task...] e.g.
+ * cmd/gradle-examples> gradle kotlinTask
+ * cmd/gradle-examples> gradle :task-examples:kotlinTask
+ */
+
+// [kotlin Task](https://docs.gradle.org/6.8/userguide/custom_tasks.html#header)
+task hellworldTask {
+    println("helloworld-task....")
+}
+
+// 先添加的doFirst动作后执行，先添加的doLast动作先执行
+task taskExecOrder{
+    doFirst { println "doFirst" }
+    doLast { println "doLast" }
+}
+taskExecOrder.doFirst { println "Second action" }
+taskExecOrder.doFirst { println "First action" }
+taskExecOrder.doLast { println "Not Last action" }
+taskExecOrder.doLast { println "Last action" }

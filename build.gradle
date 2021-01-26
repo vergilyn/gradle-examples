@@ -1,0 +1,46 @@
+// 执行脚本时，会从以下指定的repo下载相应的依赖
+buildscript {
+    repositories {
+        mavenLocal()
+        maven { url "https://maven.aliyun.com/repository/public" }
+    }
+}
+
+group 'com.vergilyn.examples'
+version '1.0.0-SNAPSHOT'
+
+println "vergilyn >>>> project-root/build.gradle"
+
+// allprojects {}
+
+// 项目里需要依赖的jar的库
+repositories {
+    // 1. use local maven-repo,
+    //   e.g. maven/setting.xml specify `<localRepository>maven-repo</localRepository>`
+    mavenLocal()
+
+    // 2. aliyun maven mirror. central仓和jcenter仓的聚合仓
+    maven { url "https://maven.aliyun.com/repository/public" }
+
+    mavenCentral()
+    jcenter()
+    maven { url "https://repo.spring.io/snapshot" }
+}
+
+task rootProjectPropsTest{
+    // cmd> gradle rootProjectPropsTest -PmyProp=emmm
+    rootProject.properties.put("myProp", "myValue")  // INVALID!
+    println "rootProject.properties >>>> " + rootProject.properties["myProp"]
+    println "rootProject.properties.get('myProp') >>>> " +rootProject.properties.get('myProp')
+}
+
+ext{
+    if (rootProject.hasProperty("subProp")){
+        subProp=rootProject.properties.get("subProp")
+    }
+}
+
+subprojects.every() {
+    // subprojects 中无法直接获取 -P传入的参数，需要通过`ext`
+    println "subprojects > rootProject.properties.get('subProp') >>>> " +rootProject.properties.get('subProp')
+}

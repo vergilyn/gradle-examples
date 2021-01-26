@@ -1,0 +1,20 @@
+rootProject.name = 'gradle-examples'
+
+// colon(:) like %rootDir or "/"
+include ':gradle-helloworld-examples'
+include 'ext-properties-examples'
+include 'task-examples'
+
+println "root >>>> settings.gradle"
+
+// -P, --project-prop   Set project property for the build script (e.g. -Pmyprop=myvalue).
+// cmd> gradle [option] -PmySettingsProp=mySettingsValue
+println "settings.hasProperty('mySettingsProp') >>>> " + settings.hasProperty("mySettingsProp")
+if (settings.hasProperty("mySettingsProp")){
+    println "settings.['mySettingsProp'] >>>> " + settings["mySettingsProp"]
+}else {
+    println "settings.['mySettingsProp'] >>>> NULL"
+}
+
+// error:No signature of method
+// settings.properties.setProperty("mySettingsProp", "mySettingsValue")

@@ -1,0 +1,43 @@
+group 'com.vergilyn.examples'
+version '1.0.0-SNAPSHOT'
+
+println "ext-properties-examples >>>> \r\n"
+
+// [ExtraPropertiesExtension](https://docs.gradle.org/6.8/dsl/org.gradle.api.plugins.ExtraPropertiesExtension.html#org.gradle.api.plugins.ExtraPropertiesExtension)
+ext {
+    myProp="myValue"
+}
+
+tasks.register("extPropTest") {
+    println("project.myProp >>>> " + project.myProp)
+    println("project.ext.myProp >>>> " + project.ext.myProp)
+    println("get(name) >>>> " + project.ext.get("myProp"))
+
+    println("")
+
+// set(name, value): Updates the value for, or creates
+    project.ext.set("foo", "bar")
+    println "set(name, value) >>>> " + project.foo
+    assert project.foo == "bar"
+
+    println ""
+
+//  use the Groovy accessor syntax to get and set properties on an extra properties extension.
+    project.ext["otherProp"] = "otherValue"
+    println "use Groovy syntax set&get `otherProp`, project.ext['otherProp'] >>>> " + project.ext["otherProp"]
+
+    println ""
+
+// has(name): Returns whether or not the extension has a property registered via the given name.
+    println "hasProperty(name) >>>> " + project.hasProperty("myProp")
+
+    println ""
+
+// Map<String, Object> properties (read-only)
+    println "project.ext.properties = " + project.ext.properties
+
+// ${key} string-format
+    print "groovy each `properties.each` >>>> "
+    project.ext.properties.each { key, value -> print "${key}: ${value}, "  }
+}
+
